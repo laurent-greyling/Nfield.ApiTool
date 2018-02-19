@@ -1,29 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:views="clr-namespace:Nfield.ApiTool.Views"
-            x:Class="Nfield.ApiTool.Views.MainPage">
-    <TabbedPage.Children>
-        <NavigationPage Title="Browse">
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_feed.png"/>
-                </OnPlatform>
-            </NavigationPage.Icon>
-            <x:Arguments>
-                <views:ItemsPage />
-            </x:Arguments>
-        </NavigationPage>
-        
-        <NavigationPage Title="About">
-            <NavigationPage.Icon>
-                <OnPlatform x:TypeArguments="FileImageSource">
-                    <On Platform="iOS" Value="tab_about.png"/>
-                </OnPlatform>
-            </NavigationPage.Icon>
-            <x:Arguments>
-                <views:AboutPage />
-            </x:Arguments>
-        </NavigationPage>
-    </TabbedPage.Children>
-</TabbedPage>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Nfield.ApiTool.Views.MainPage">
+    <ContentPage.Content>
+        <StackLayout Spacing="10" Padding="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="1" Source="nfieldmanager.png"/>
+                <Frame VerticalOptions="CenterAndExpand" Grid.Row="2">
+                    <StackLayout Padding="5,5,5,5">
+                        <Label Text="User Name" FontSize="Medium" />
+                        <Entry x:Name="UserName" Text="demo"/>
+                        <Label Text="Domain" FontSize="Medium" />
+                        <Entry x:Name="Domain" Text="demo"/>
+                        <Label Text="Password" FontSize="Medium" />
+                        <Entry x:Name="Password" IsPassword="True" />
+                        <Label Text="Server" FontSize="Medium"/>
+                        <Picker x:Name="SelectedServer" 
+                                SelectedIndexChanged="OnPickerSelected_IndexChanged"
+                                HorizontalOptions="FillAndExpand">
+                            <Picker.Items>
+                                <x:String>RC</x:String>
+                                <x:String>Blue</x:String>
+                                <x:String>Red</x:String>
+                                <x:String>Orange</x:String>
+                                <x:String>White</x:String>
+                                <x:String>Yellow</x:String>
+                                <x:String>Demo</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </StackLayout>
+                </Frame>
+                <ActivityIndicator 
+                    Grid.Row="3"
+                    x:Name="Loading"
+                    IsVisible="True"
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"/>
+                <Button Grid.Row="3" 
+                        x:Name="Login"
+                        IsVisible="True"
+                        FontSize="Medium"
+                        HorizontalOptions="CenterAndExpand"
+                        VerticalOptions="CenterAndExpand"
+                        TextColor="Transparent"
+                        Image="signin.png"
+                        Clicked="Login_Api"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
