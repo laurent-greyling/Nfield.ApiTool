@@ -15,13 +15,11 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="40"/>
                                         <ColumnDefinition Width="30"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" Source="{Binding Icon}"/>
                                     <Label Grid.Column="1" Text="{Binding SurveyName}" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" FontSize="Medium" FontAttributes="Bold"/>
-                                    <Label Grid.Column="2" Text="{Binding SuccessFulCount}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontSize="Medium"/>
-                                    <Button Grid.Column="3"
+                                    <Button Grid.Column="2"
                                             Grid.ColumnSpan="1"
                                             BorderWidth="-1"
                                             BorderColor="Transparent"
@@ -32,7 +30,7 @@
                                             VerticalOptions="CenterAndExpand"
                                             HorizontalOptions="CenterAndExpand"
                                             Clicked="Select_As_Favourite"/>
-                                    <Image x:Name="FavImage" Grid.Column="3" VerticalOptions="CenterAndExpand"
+                                    <Image x:Name="FavImage" Grid.Column="2" VerticalOptions="CenterAndExpand"
                                             HorizontalOptions="CenterAndExpand" Source="{Binding Image}"/>
                                 </Grid>
                             </StackLayout>

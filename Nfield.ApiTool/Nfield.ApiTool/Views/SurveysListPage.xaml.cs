@@ -49,76 +49,19 @@ namespace Nfield.ApiTool.Views
                     }
                 }
 
-                var removeSurvey = new List<SurveyDetails>();
-
                 foreach (var item in Surveys.ToList())
                 {
-                    var status = await FieldWorkStatusAsync(item.SurveyId);
-                    if (status == FieldworkStatus.UnderConstruction)
-                    {
-                        Surveys.Remove(item);
-                        continue;
-                    }
-
                     item.Icon = "ic_android_black_24dp.png";
 
                     if (item.SurveyType == "OnlineBasic")
                     {
                         item.Icon = "ic_online_24dp.png";
                     }
-
-                    item.SuccessFulCount = $"{CompletedCount(item.SurveyId)}";
-
                 }
             }
             catch (Exception)
             {
                 await DisplayAlert("No Surveys", "Could not retrieve survey information", "OK");
-            }
-        }
-
-        private async Task<string> CompletedCount(string surveyId)
-        {
-            try
-            {
-                var url = $"{ServerUrl}/v1/Surveys/{surveyId}/Counts";
-                var request = new RestApi().Get(url, Token);
-
-                using (WebResponse response = await request.GetResponseAsync())
-                {
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-                        var content = reader.ReadToEnd();
-                        var surveyCounts = JsonConvert.DeserializeObject<SurveyCountsModel>(content);
-                        if (surveyCounts.SuccessfulCount == null) return "0";
-
-                        return surveyCounts.SuccessfulCount.ToString();
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return "0";
-            }
-        }
-
-        private async Task<FieldworkStatus> FieldWorkStatusAsync(string surveyId)
-        {
-            try
-            {
-                var url = $"{ServerUrl}/v1/Surveys/{surveyId}/Fieldwork/Status";
-                var request = new RestApi().Get(url, Token);
-                using (WebResponse response = await request.GetResponseAsync())
-                {
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-                        return (FieldworkStatus)int.Parse(reader.ReadToEnd());
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                return FieldworkStatus.UnderConstruction;
             }
         }
 
@@ -144,12 +87,6 @@ namespace Nfield.ApiTool.Views
             }
         }
 
-        private void Tapped_Search()
-        {
-            SearchBar.Focus();
-            SearchBar.IsVisible = !SearchBar.IsVisible ? true : false;
-        }
-
         private void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             SurveyList.ItemsSource = string.IsNullOrWhiteSpace(e.NewTextValue)
@@ -157,9 +94,9 @@ namespace Nfield.ApiTool.Views
                 : SurveyList.ItemsSource = Surveys.Where(n => n.SurveyName.Contains(e.NewTextValue));
         }
 
-        private void Surveys_Refresh(object sender, EventArgs e)
+        private async Task Surveys_Refresh(object sender, EventArgs e)
         {
-            GetSurveys();
+            await GetSurveys();
             SurveyList.ItemsSource = Surveys;
             SurveyList.EndRefresh();
         }
