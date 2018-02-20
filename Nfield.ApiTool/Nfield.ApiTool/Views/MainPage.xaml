@@ -37,21 +37,25 @@
                         </Picker>
                     </StackLayout>
                 </Frame>
-                <ActivityIndicator 
-                    Grid.Row="3"
-                    x:Name="Loading"
-                    IsVisible="True"
-                    VerticalOptions="FillAndExpand"
-                    HorizontalOptions="FillAndExpand"/>
-                <Button Grid.Row="3" 
-                        x:Name="Login"
-                        IsVisible="True"
-                        FontSize="Medium"
-                        HorizontalOptions="CenterAndExpand"
-                        VerticalOptions="CenterAndExpand"
-                        TextColor="Transparent"
-                        Image="signin.png"
-                        Clicked="Login_Api"/>
+                <Image Grid.Row="3"
+                       Source="loading.png"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand"
+                       BackgroundColor="Transparent"
+                       IsVisible="False"
+                       x:Name="Loading"
+                       />
+                <Image Grid.Row="3"
+                       x:Name="Login"
+                       IsVisible="True"
+                       HorizontalOptions="FillAndExpand"
+                       VerticalOptions="FillAndExpand"
+                       Source="signin.png"
+                       BackgroundColor="Transparent">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Login_Api"/>
+                    </Image.GestureRecognizers>
+                </Image>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Nfield.ApiTool.Views.SurveysListPage"
+             Title="Surveys">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+            <SearchBar Placeholder="Search" TextChanged="SearchBar_OnTextChanged" x:Name="SearchBar" IsVisible="False" HeightRequest="50"/>
+            <ListView x:Name="SurveyList" ItemsSource="{Binding Surveys}" RowHeight="75" ItemTapped="Show_Options" IsPullToRefreshEnabled="True" Refreshing="Surveys_Refresh">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="5,5,5,5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="40"/>
+                                        <ColumnDefinition Width="30"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="{Binding Icon}"/>
+                                    <Label Grid.Column="1" Text="{Binding SurveyName}" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" FontSize="Medium" FontAttributes="Bold"/>
+                                    <Label Grid.Column="2" Text="{Binding SuccessFulCount}" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" FontSize="Medium"/>
+                                    <Button Grid.Column="3"
+                                            Grid.ColumnSpan="1"
+                                            BorderWidth="-1"
+                                            BorderColor="Transparent"
+                                            BackgroundColor="Transparent"
+                                            Text="{Binding SurveyId}"
+                                            FontSize="Micro"
+                                            TextColor="Transparent"                                            
+                                            VerticalOptions="CenterAndExpand"
+                                            HorizontalOptions="CenterAndExpand"
+                                            Clicked="Select_As_Favourite"/>
+                                    <Image x:Name="FavImage" Grid.Column="3" VerticalOptions="CenterAndExpand"
+                                            HorizontalOptions="CenterAndExpand" Source="{Binding Image}"/>
+                                </Grid>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

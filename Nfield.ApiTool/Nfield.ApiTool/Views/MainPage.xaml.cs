@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Nfield.ApiTool.Models;
 using Nfield.ApiTool.ViewModels;
@@ -27,10 +24,13 @@ namespace Nfield.ApiTool.Views
 	        try
 	        {
 	            Loading.IsVisible = true;
-	            Login.IsVisible = false;
+                Login.IsVisible = false;
 	            Login.IsEnabled = false;
+                
+	            await Loading.RotateTo(360, 2000);
+	            Loading.Rotation = 0;
 
-	            await Task.Run(() =>
+                await Task.Run(() =>
 	            {
 	                var signIModel = new SignInModel
 	                {
@@ -42,7 +42,7 @@ namespace Nfield.ApiTool.Views
 	                SigninViewModel = new SignInViewModel(signIModel, ServerUrl);
                 });
 
-	            await Navigation.PushAsync(new ActionsPage(SigninViewModel.AccessToken),true);
+	            await Navigation.PushAsync(new SurveysListPage(SigninViewModel.AccessToken, ServerUrl),true);
 
 	        }
 	        catch (Exception)
