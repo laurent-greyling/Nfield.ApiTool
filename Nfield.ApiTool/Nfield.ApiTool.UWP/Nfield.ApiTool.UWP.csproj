@@ -154,10 +154,11 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="racing.png" />
+    <Content Include="searching.png" />
     <Content Include="select.png" />
     <Content Include="signin.png" />
     <Content Include="survey.png" />
-    <Content Include="tools-and-utensils.png" />
+    <Content Include="toolsandutensils.png" />
     <Content Include="unselect.png" />
     <Content Include="xamarin_logo.png" />
   </ItemGroup>

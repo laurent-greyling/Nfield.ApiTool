@@ -135,10 +135,13 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\play.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable-xxhdpi\tools-and-utensils.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\toolsandutensils.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\barchart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\searching.png" />
   </ItemGroup>
   <Import Project="..\Nfield.ApiTool\Nfield.ApiTool.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
