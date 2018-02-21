@@ -113,6 +113,7 @@
   <ItemGroup>
     <Content Include="analytics.png" />
     <Content Include="barchart.png" />
+    <Content Include="download.png" />
     <Content Include="ic_android_black_24dp.png" />
     <Content Include="ic_online_24dp.png" />
     <Content Include="loading.png" />
@@ -120,6 +121,7 @@
     <Content Include="meeting.png" />
     <Content Include="network.png" />
     <Content Include="nfieldmanager.png" />
+    <Content Include="photo.png" />
     <Content Include="play.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-100.png" />
@@ -160,6 +162,7 @@
     <Content Include="survey.png" />
     <Content Include="toolsandutensils.png" />
     <Content Include="unselect.png" />
+    <Content Include="upload.png" />
     <Content Include="xamarin_logo.png" />
   </ItemGroup>
   <ItemGroup>

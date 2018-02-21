@@ -23,6 +23,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\QuotaAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\QuotaGroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\QuotaLevel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SamplingPointKind.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SamplingPointModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SignInModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SurveyCountsModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SurveyDetails.cs" />
@@ -37,6 +39,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SamplingPoints\SamplingPointsPage.xaml.cs">
+      <DependentUpon>SamplingPointsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\SurveysListPage.xaml.cs">
@@ -68,6 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\SurveyStatisticsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\SamplingPoints\SamplingPointsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

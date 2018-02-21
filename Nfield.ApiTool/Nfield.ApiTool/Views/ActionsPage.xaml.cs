@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Nfield.ApiTool.Models;
+using Nfield.ApiTool.Views.SamplingPoints;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -57,6 +58,9 @@ namespace Nfield.ApiTool.Views
             {
                 case "Survey Statistics":
                     await Navigation.PushAsync(new SurveyStatisticsPage(surveyDetails.AccessToken, surveyDetails.ServerUrl, surveyDetails.SurveyDetails));
+                    break;
+                case "Sampling Points":
+                    await Navigation.PushAsync(new SamplingPointsPage(surveyDetails.AccessToken, surveyDetails.ServerUrl, surveyDetails.SurveyDetails));
                     break;
                 default:
                     break;
