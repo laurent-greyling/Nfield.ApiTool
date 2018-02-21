@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\SurveyDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FavToggleDb.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SignInViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SurveysViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\ActionsPage.xaml.cs">
       <DependentUpon>ActionsPage.xaml</DependentUpon>
       <SubType>Code</SubType>

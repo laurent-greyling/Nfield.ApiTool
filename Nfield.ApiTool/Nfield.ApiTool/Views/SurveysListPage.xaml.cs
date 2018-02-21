@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Nfield.ApiTool.Helper;
 using Nfield.ApiTool.Models;
 using Nfield.ApiTool.Services;
+using Nfield.ApiTool.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,7 +19,7 @@ namespace Nfield.ApiTool.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SurveysListPage : ContentPage
 	{
-	    public ObservableCollection<SurveyDetails> Surveys { get; set; }
+	    public SurveysViewModel Surveys { get; set; }
 	    public FavToggleDb _db = new FavToggleDb();
         private string ServerUrl { get; set; }
         private AccessToken Token { get; set; }
@@ -27,37 +28,18 @@ namespace Nfield.ApiTool.Views
 			InitializeComponent ();
 		    Token = token;
 		    ServerUrl = serverUrl;
-		    GetSurveys().Wait();
-		    Favourites();
-
-		    BindingContext = this;
+            Task.Run(async () => 
+            {
+                await GetSurveys();
+            });
         }
 
         private async Task GetSurveys()
         {
             try
             {
-                var url = $"{ServerUrl}/v1/Surveys";
-                var request = new RestApi().Get(url, Token);
-
-                using (WebResponse response = await request.GetResponseAsync())
-                {
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-                        var content = reader.ReadToEnd();
-                        Surveys = JsonConvert.DeserializeObject<ObservableCollection<SurveyDetails>>(content);
-                    }
-                }
-
-                foreach (var item in Surveys.ToList())
-                {
-                    item.Icon = "ic_android_black_24dp.png";
-
-                    if (item.SurveyType == "OnlineBasic")
-                    {
-                        item.Icon = "ic_online_24dp.png";
-                    }
-                }
+                Surveys = new SurveysViewModel(Token, ServerUrl);
+                BindingContext = Surveys;
             }
             catch (Exception)
             {
@@ -90,22 +72,22 @@ namespace Nfield.ApiTool.Views
         private void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             SurveyList.ItemsSource = string.IsNullOrWhiteSpace(e.NewTextValue)
-                ? SurveyList.ItemsSource = Surveys
-                : SurveyList.ItemsSource = Surveys.Where(n => n.SurveyName.Contains(e.NewTextValue));
+                ? SurveyList.ItemsSource = Surveys.Surveys
+                : SurveyList.ItemsSource = Surveys.Surveys.Where(n => n.SurveyName.ToLower().Contains(e.NewTextValue.ToLower()));
         }
 
         private async Task Surveys_Refresh(object sender, EventArgs e)
         {
             await GetSurveys();
-            SurveyList.ItemsSource = Surveys;
+            SurveyList.ItemsSource = Surveys.Surveys;
             SurveyList.EndRefresh();
         }
 
         public void Select_As_Favourite(object sender, EventArgs e)
         {
-            var fav = sender as Button;
+            var fav = (Image)sender;
 
-            var favSurvey = Surveys.FirstOrDefault(s => s.SurveyId == fav.Text);
+            var favSurvey = Surveys.Surveys.FirstOrDefault(s => s.SurveyId == fav.ClassId);
 
             if (favSurvey.Image == "unselect.png")
             {
@@ -118,57 +100,19 @@ namespace Nfield.ApiTool.Views
                 favSurvey.IsFavourite = false;
             }
 
-            var isSurveyAdded = _db.GetFavourites().FirstOrDefault(x => x.SurveId == fav.Text);
+            var isSurveyAdded = _db.GetFavourites().FirstOrDefault(x => x.SurveId == fav.ClassId);
 
             if (isSurveyAdded == null || string.IsNullOrEmpty(isSurveyAdded.SurveId))
             {
-                _db.AddFav(fav.Text, favSurvey.IsFavourite, favSurvey.Image);
+                _db.AddFav(fav.ClassId, favSurvey.IsFavourite, favSurvey.Image);
             }
             else
             {
-                _db.UpdateFav(fav.Text, favSurvey.IsFavourite, favSurvey.Image);
+                _db.UpdateFav(fav.ClassId, favSurvey.IsFavourite, favSurvey.Image);
             }
 
-            Favourites();
-            SurveyList.ItemsSource = Surveys;
-        }
-
-        private void Favourites()
-        {
-            foreach (var survey in Surveys)
-            {
-                var localSurvey = _db.GetFavourites().FirstOrDefault(x => x.SurveId == survey.SurveyId);
-
-                if (localSurvey == null || string.IsNullOrEmpty(localSurvey.SurveId) || !localSurvey.IsFavourite)
-                {
-                    survey.IsFavourite = false;
-                    survey.Image = "unselect.png";
-                }
-                else
-                {
-                    survey.IsFavourite = true;
-                    survey.Image = "select.png";
-                }
-            }
-
-            var ordered = from survey in Surveys
-                          orderby !survey.IsFavourite
-                          select new SurveyDetails()
-                          {
-                              SurveyId = survey.SurveyId,
-                              SurveyName = survey.SurveyName,
-                              ClientName = survey.ClientName,
-                              SurveyType = survey.SurveyType,
-                              Description = survey.Description,
-                              QuestionnaireMD5 = survey.QuestionnaireMD5,
-                              InterviewerInstruction = survey.InterviewerInstruction,
-                              Icon = survey.Icon,
-                              Image = survey.Image,
-                              IsFavourite = survey.IsFavourite,
-                              SuccessFulCount = survey.SuccessFulCount
-                          };
-
-            Surveys = new ObservableCollection<SurveyDetails>(ordered);
-        }
+            Surveys.Favourites();
+            SurveyList.ItemsSource = Surveys.Surveys;
+        }        
     }
 }
