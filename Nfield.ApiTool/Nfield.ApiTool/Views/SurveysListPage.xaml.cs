@@ -52,21 +52,9 @@ namespace Nfield.ApiTool.Views
             if (e.Item == null)
                 return;
 
-            var surveyDetails = e.Item as SurveyDetails;
-
-            var action = await DisplayActionSheet($"{surveyDetails.SurveyName}", "Cancel", null, "Survey Preview", "Survey Statistics");
-
-            switch (action)
-            {
-                case "Survey Statistics":
-                    await Navigation.PushAsync(new ActionsPage(Token, ServerUrl, surveyDetails));
-                    break;
-                case "Survey Preview":
-                    await Navigation.PushAsync(new ActionsPage(Token, ServerUrl, surveyDetails));
-                    break;
-                default:
-                    break;
-            }
+            var surveyDetails = (SurveyDetails)e.Item;
+            
+            await Navigation.PushAsync(new ActionsPage(Token, ServerUrl, surveyDetails));
         }
 
         private void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)

@@ -6,7 +6,12 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Padding="5,5,5,5">
             <SearchBar Placeholder="Search" TextChanged="SearchBar_OnTextChanged" FontSize="Medium" x:Name="SearchBar" HeightRequest="50"/>
-            <ListView x:Name="SurveyList" ItemsSource="{Binding Surveys}" RowHeight="75" ItemTapped="Show_Options" IsPullToRefreshEnabled="True" Refreshing="Surveys_Refresh">
+            <ListView x:Name="SurveyList" 
+                      ItemsSource="{Binding Surveys}"
+                      RowHeight="75"
+                      ItemTapped="Show_Options"
+                      IsPullToRefreshEnabled="True"
+                      Refreshing="Surveys_Refresh">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -16,9 +21,16 @@
                                         <ColumnDefinition Width="40"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="5"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" Source="{Binding Icon}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
-                                    <Label Grid.Column="1" Text="{Binding SurveyName}" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" FontSize="Medium" FontAttributes="Bold"/>
+                                    <Label Grid.Column="1" 
+                                           Text="{Binding SurveyName}" 
+                                           VerticalOptions="CenterAndExpand" 
+                                           HorizontalOptions="StartAndExpand"
+                                           FontSize="Medium"
+                                           FontAttributes="Bold"
+                                           TextColor="#a39f9f"/>
                                     <Image x:Name="FavImage"
                                            Grid.Column="2"
                                            VerticalOptions="CenterAndExpand"

@@ -30,8 +30,9 @@ namespace Nfield.ApiTool.Views
 		        new ActionsToTake {Action = "Interviewers", Icon = "meeting.png"},
 		        new ActionsToTake {Action = "Sampling Points", Icon = "network.png"},
 		        new ActionsToTake {Action = "Survey Data", Icon = "analytics.png"},
-		        new ActionsToTake {Action = "Survey Settings", Icon = "survey.png"}
-		    };
+		        new ActionsToTake {Action = "Survey Settings", Icon = "survey.png"},
+                new ActionsToTake {Action = "Survey Statistics", Icon = "barchart.png"},
+            };
 
 		    BindingContext = this;
 
