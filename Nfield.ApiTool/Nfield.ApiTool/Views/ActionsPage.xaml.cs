@@ -7,21 +7,11 @@ using System.Threading.Tasks;
 using Nfield.ApiTool.Models;
 using Nfield.ApiTool.Views.SamplingPoints;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
 namespace Nfield.ApiTool.Views
 {
-    public class ActionsToTake
-    {
-        public string Action { get; set; }
-        public string Icon { get; set; } 
-
-        public string ServerUrl { get; set; }
-
-        public SurveyDetails SurveyDetails { get; set; }
-
-        public AccessToken AccessToken { get; set; }
-    }
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ActionsPage : ContentPage
 	{
@@ -33,17 +23,81 @@ namespace Nfield.ApiTool.Views
 		{
 			InitializeComponent();
             ActionsTitle = $"{surveyDetails.SurveyName} Actions";
+            
             Actions = new ObservableCollection<ActionsToTake>
 		    {
-		        new ActionsToTake {Action = "Addresses", Icon = "map.png", ServerUrl = serverUrl, SurveyDetails = surveyDetails, AccessToken = token},
-		        new ActionsToTake {Action = "Interviewers", Icon = "meeting.png", ServerUrl = serverUrl, SurveyDetails = surveyDetails, AccessToken = token},
-		        new ActionsToTake {Action = "Sampling Points", Icon = "network.png", ServerUrl = serverUrl, SurveyDetails = surveyDetails, AccessToken = token},
-		        new ActionsToTake {Action = "Survey Data", Icon = "analytics.png", ServerUrl = serverUrl, SurveyDetails = surveyDetails, AccessToken = token},
-		        new ActionsToTake {Action = "Survey Settings", Icon = "survey.png", ServerUrl = serverUrl, SurveyDetails = surveyDetails, AccessToken = token},
-                new ActionsToTake {Action = "Survey Statistics", Icon = "barchart.png", ServerUrl = serverUrl, SurveyDetails = surveyDetails, AccessToken = token},
+		        new ActionsToTake
+		        {
+		            Action = "Addresses",
+                    Icon = "map.png",
+                    ServerUrl = serverUrl,
+                    SurveyDetails = surveyDetails,
+                    AccessToken = token
+		        },
+		        new ActionsToTake
+		        {
+		            Action = "Interviewers",
+                    Icon = "meeting.png",
+                    ServerUrl = serverUrl,
+                    SurveyDetails = surveyDetails,
+                    AccessToken = token
+
+                },
+		        new ActionsToTake
+		        {
+		            Action = "Sampling Points",
+                    Icon = "network.png",
+                    ServerUrl = serverUrl,
+                    SurveyDetails = surveyDetails,
+                    AccessToken = token
+		        },
+		        new ActionsToTake
+		        {
+		            Action = "Survey Data Overview",
+                    Icon = "analytics.png",
+                    ServerUrl = serverUrl,
+                    SurveyDetails = surveyDetails,
+                    AccessToken = token
+		        },
+		        new ActionsToTake
+		        {
+		            Action = "Survey Settings",
+                    Icon = "survey.png",
+                    ServerUrl = serverUrl,
+                    SurveyDetails = surveyDetails,
+                    AccessToken = token
+		        },
+                new ActionsToTake
+                {
+                    Action = "Survey Statistics",
+                    Icon = "barchart.png",
+                    ServerUrl = serverUrl,
+                    SurveyDetails = surveyDetails,
+                    AccessToken = token
+                },
             };
 
-		    BindingContext = this;
+		    if (surveyDetails.SurveyType != SurveyType.EuroBarometer.ToString())
+		    {
+		        var index = Actions.Single(c => c.Action == "Addresses");
+		        Actions.Remove(index);
+		    }
+
+		    if (surveyDetails.SurveyType == SurveyType.OnlineBasic.ToString())
+		    {
+		        var index = Actions.Single(c => c.Action == "Interviewers");
+		        Actions.Remove(index);
+		        index = Actions.Single(c => c.Action == "Survey Data Overview");
+		        Actions.Remove(index);
+            }
+
+		    if (surveyDetails.SurveyType != SurveyType.Advanced.ToString() || surveyDetails.SurveyType != SurveyType.EuroBarometer.ToString())
+		    {
+		        var index = Actions.Single(c => c.Action == "Sampling Points");
+		        Actions.Remove(index);
+            }
+
+            BindingContext = this;
 
 		}
 
