@@ -14,7 +14,11 @@
                 <Image Grid.Column="0"
                        Source="upload.png"
                        HorizontalOptions="CenterAndExpand"
-                       VerticalOptions="CenterAndExpand"/>
+                       VerticalOptions="CenterAndExpand">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Upload_File"/>
+                    </Image.GestureRecognizers>
+                </Image>
                 <Image Grid.Column="1"
                        Source="download.png"
                        HorizontalOptions="CenterAndExpand"

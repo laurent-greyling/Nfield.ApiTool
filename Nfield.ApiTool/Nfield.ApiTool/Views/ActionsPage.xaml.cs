@@ -91,7 +91,7 @@ namespace Nfield.ApiTool.Views
 		        Actions.Remove(index);
             }
 
-		    if (surveyDetails.SurveyType != SurveyType.Advanced.ToString() || surveyDetails.SurveyType != SurveyType.EuroBarometer.ToString())
+		    if (surveyDetails.SurveyType != SurveyType.Advanced.ToString() && surveyDetails.SurveyType != SurveyType.EuroBarometer.ToString())
 		    {
 		        var index = Actions.Single(c => c.Action == "Sampling Points");
 		        Actions.Remove(index);
