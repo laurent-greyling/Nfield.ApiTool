@@ -28,6 +28,7 @@
                        HorizontalOptions="CenterAndExpand"
                        VerticalOptions="CenterAndExpand"/>
             </Grid>
+            <Label Text="{Binding MocString}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

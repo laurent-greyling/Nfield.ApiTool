@@ -32,6 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\SurveyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SurveyType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FavToggleDb.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SamplingPointsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SignInViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SurveyStatisticsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SurveysViewModel.cs" />

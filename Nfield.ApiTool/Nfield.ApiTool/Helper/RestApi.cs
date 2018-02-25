@@ -22,6 +22,17 @@ namespace Nfield.ApiTool.Helper
             var request = WebRequest.Create(new Uri(url));
             request.ContentType = "application/json";
             request.Method = "POST";
+            
+
+            return request;
+        }
+
+        public WebRequest Post(string url, AccessToken token)
+        {
+            var request = WebRequest.Create(new Uri(url));
+            request.ContentType = "application/json";
+            request.Method = "POST";
+            request.Headers[HttpRequestHeader.Authorization] = $"Basic {token.AuthenticationToken}";
 
             return request;
         }

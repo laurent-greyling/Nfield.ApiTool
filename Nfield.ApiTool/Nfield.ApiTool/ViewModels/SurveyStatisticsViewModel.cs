@@ -58,14 +58,14 @@ namespace Nfield.ApiTool.ViewModels
         }
 
         public bool HasQuota { get; set; }
-        public SurveyStatisticsViewModel(AccessToken token, string serverUrl, string surveyId, SurveyDetails surveyDetails)
+        public SurveyStatisticsViewModel(AccessToken token, string serverUrl, SurveyDetails surveyDetails)
         {
-            Task.Run(async () => await RetrieveCounts(token, serverUrl, surveyId, surveyDetails));
+            Task.Run(async () => await RetrieveCounts(token, serverUrl, surveyDetails));
         }
 
-        private async Task RetrieveCounts(AccessToken token, string serverUrl, string surveyId, SurveyDetails surveyDetails)
+        private async Task RetrieveCounts(AccessToken token, string serverUrl, SurveyDetails surveyDetails)
         {
-            var url = $"{serverUrl}/v1/Surveys/{surveyId}/Counts";
+            var url = $"{serverUrl}/v1/Surveys/{surveyDetails.SurveyId}/Counts";
             var request = new RestApi().Get(url, token);
 
             using (WebResponse response = await request.GetResponseAsync())

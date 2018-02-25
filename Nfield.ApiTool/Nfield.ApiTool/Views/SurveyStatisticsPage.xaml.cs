@@ -42,7 +42,7 @@ namespace Nfield.ApiTool.Views
         {
             try
             {
-                SurveyCounts = new SurveyStatisticsViewModel(Token, ServerUrl, SurveyId, SurveyDetails);
+                SurveyCounts = new SurveyStatisticsViewModel(Token, ServerUrl, SurveyDetails);
                 if (SurveyCounts.HasQuota)
                 {
                     NoQuota.IsVisible = false;
