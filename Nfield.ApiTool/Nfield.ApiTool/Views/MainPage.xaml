@@ -16,9 +16,9 @@
                 <Frame VerticalOptions="CenterAndExpand" Grid.Row="2">
                     <StackLayout Padding="5,5,5,5">
                         <Label Text="User Name" FontSize="Medium" />
-                        <Entry x:Name="UserName" Text="demo"/>
+                        <Entry x:Name="UserName" Text="da"/>
                         <Label Text="Domain" FontSize="Medium" />
-                        <Entry x:Name="Domain" Text="demo"/>
+                        <Entry x:Name="Domain" Text="LaurentTest"/>
                         <Label Text="Password" FontSize="Medium" />
                         <Entry x:Name="Password" IsPassword="True" />
                         <Label Text="Server" FontSize="Medium"/>

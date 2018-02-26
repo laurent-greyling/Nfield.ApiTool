@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISQLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AccessToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ActionsToTake.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\FieldworkOfficeModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\FieldworkStatus.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\QuotaAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\QuotaGroup.cs" />
@@ -31,6 +32,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\SurveyDetails.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SurveyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SurveyType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DownloadSamplingPoints.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FavToggleDb.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SamplingPointsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SignInViewModel.cs" />

@@ -4,31 +4,141 @@
              x:Class="Nfield.ApiTool.Views.SamplingPoints.SamplingPointsPage"
              Title="{Binding SurveyName}">
     <ContentPage.Content>
-        <StackLayout Padding="5,5,5,5">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="30"/>
-                </Grid.ColumnDefinitions>
-                <Image Grid.Column="0"
-                       Source="upload.png"
-                       HorizontalOptions="CenterAndExpand"
-                       VerticalOptions="CenterAndExpand">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="Upload_File"/>
-                    </Image.GestureRecognizers>
-                </Image>
-                <Image Grid.Column="1"
-                       Source="download.png"
-                       HorizontalOptions="CenterAndExpand"
-                       VerticalOptions="CenterAndExpand"/>
-                <Image Grid.Column="2"
-                       Source="photo.png"
-                       HorizontalOptions="CenterAndExpand"
-                       VerticalOptions="CenterAndExpand"/>
-            </Grid>
-            <Label Text="{Binding MocString}"/>
+        <StackLayout>
+            <StackLayout Padding="5,5,5,5" HeightRequest="50">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="90"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0"
+                           Source="upload.png"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Upload_File"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Image Grid.Column="1"
+                           Source="download.png"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Download_File"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Image Grid.Column="2"
+                           Source="photo.png"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"/>
+                    <Label Grid.Column="4" x:Name="Uploading"
+                           Text="{Binding Loading}"
+                           FontSize="Micro"
+                           VerticalOptions="CenterAndExpand" 
+                           HorizontalOptions="CenterAndExpand"
+                           FontAttributes="Bold"
+                           IsVisible="{Binding IsLoading}"
+                           TextColor="#a39f9f"/>
+                </Grid>
+            </StackLayout>
+            <StackLayout Padding="5,5,5,5" HorizontalOptions="CenterAndExpand">
+                <ScrollView Orientation="Both">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="1"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="Aquamarine"/>
+                        <Label Grid.Row="0" Grid.Column="1" Text="Sampling Point ID" TextColor="#a39f9f" FontAttributes="Bold"/>
+                        <BoxView Grid.Row="0" Grid.Column="2" BackgroundColor="Aquamarine"/>
+                        <Label Grid.Row="0" Grid.Column="3" Text="Name" TextColor="#a39f9f" FontAttributes="Bold"/>
+                        <BoxView Grid.Row="0" Grid.Column="4" BackgroundColor="Aquamarine"/>
+                        <Label Grid.Row="0" Grid.Column="5" Text="Description" TextColor="#a39f9f" FontAttributes="Bold"/>
+                        <BoxView Grid.Row="0" Grid.Column="6" BackgroundColor="Aquamarine"/>
+                        <Label Grid.Row="0" Grid.Column="7" Text="Instruction" TextColor="#a39f9f" FontAttributes="Bold"/>
+                        <BoxView Grid.Row="0" Grid.Column="8" BackgroundColor="Aquamarine"/>
+                        <Label Grid.Row="0" Grid.Column="9" Text="Fieldwork Office Id" TextColor="#a39f9f" FontAttributes="Bold"/>
+                        <BoxView Grid.Row="0" Grid.Column="10" BackgroundColor="Aquamarine"/>
+                        <Label Grid.Row="0" Grid.Column="11" Text="Group Id" TextColor="#a39f9f" FontAttributes="Bold"/>
+                        <BoxView Grid.Row="0" Grid.Column="12" BackgroundColor="Aquamarine"/>
+                        <Label Grid.Row="0" Grid.Column="13" Text="Kind" TextColor="#a39f9f" FontAttributes="Bold"/>
+                        <BoxView Grid.Row="0" Grid.Column="14" BackgroundColor="Aquamarine"/>
+                        <Label Grid.Row="0" Grid.Column="15" Text="Stratum" TextColor="#a39f9f" FontAttributes="Bold"/>
+                        <BoxView Grid.Row="0" Grid.Column="16"/>
+                        <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="16"
+                              ItemsSource="{Binding SamplingPoints}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1"/>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="1"/>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="1"/>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="1"/>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="1"/>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="1"/>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="1"/>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="1"/>
+                                                    <ColumnDefinition Width="200"/>
+                                                    <ColumnDefinition Width="1"/>
+                                                </Grid.ColumnDefinitions>
+                                                <BoxView Grid.Column="0" BackgroundColor="Aquamarine"/>
+                                                <Label Grid.Column="1" Text="{Binding SamplingPointId}"/>
+                                                <BoxView Grid.Column="2" BackgroundColor="Aquamarine"/>
+                                                <Label Grid.Column="3" Text="{Binding Name}"/>
+                                                <BoxView Grid.Column="4" BackgroundColor="Aquamarine"/>
+                                                <Label Grid.Column="5" Text="{Binding Description}"/>
+                                                <BoxView Grid.Column="6" BackgroundColor="Aquamarine"/>
+                                                <Label Grid.Column="7" Text="{Binding Instruction}"/>
+                                                <BoxView Grid.Column="8" BackgroundColor="Aquamarine"/>
+                                                <Label Grid.Column="9" Text="{Binding FieldworkOfficeId}"/>
+                                                <BoxView Grid.Column="10" BackgroundColor="Aquamarine"/>
+                                                <Label Grid.Column="11" Text="{Binding GroupId}"/>
+                                                <BoxView Grid.Column="12" BackgroundColor="Aquamarine"/>
+                                                <Label Grid.Column="13" Text="{Binding Stratum}"/>
+                                                <BoxView Grid.Column="14" BackgroundColor="Aquamarine"/>
+                                                <Label Grid.Column="15" Text="{Binding Kind}"/>
+                                                <BoxView Grid.Column="16" BackgroundColor="Aquamarine"/>
+                                            </Grid>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </ScrollView>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

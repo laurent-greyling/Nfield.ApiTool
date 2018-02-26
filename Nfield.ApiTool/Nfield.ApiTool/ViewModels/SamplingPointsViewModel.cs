@@ -17,167 +17,154 @@ namespace Nfield.ApiTool.ViewModels
     {
         public string SurveyName { get; set; }
 
-        private string _mocString;
-        public string MocString
+        private string _loading;
+        public string Loading
         {
-            get { return _mocString; }
+            get { return _loading; }
             set
             {
-                if (_mocString != value)
+                if (_loading != value)
                 {
-                    _mocString = value;
-                    OnPropertyChanged("MocString");
+                    _loading = value;
+                    OnPropertyChanged("Lodaing");
                 }
             }
         }
 
-        public SamplingPointsViewModel(AccessToken token, string serverUrl, SurveyDetails surveyDetails, FileData file)
+        private bool _isLoading = true;
+        public bool IsLoading
         {
+            get { return _isLoading; }
+            set
+            {
+                if (_isLoading != value)
+                {
+                    _isLoading = value;
+                    OnPropertyChanged("IsLoading");
+                }
+            }
+        }
+        
+
+        private List<SamplingPointModel> _samplingPoints;
+        public List<SamplingPointModel> SamplingPoints
+        {
+            get { return _samplingPoints; }
+            set
+            {
+                if (_samplingPoints != value)
+                {
+                    _samplingPoints = value;
+                    OnPropertyChanged("SamplingPoints");
+                }
+            }
+        }
+
+        public SamplingPointsViewModel(AccessToken token,
+            string serverUrl,
+            SurveyDetails surveyDetails,
+            FileData file,
+            bool isLoading= false,
+            string loading = "")
+        {
+            Loading = loading;
+            IsLoading = isLoading;
             SurveyName = $"{surveyDetails.SurveyName} Sampling Points";
             if (file != null)
             {
-                Task.Run(async () => await UploadSamplingPoints(token, serverUrl, surveyDetails, file));
-            }            
+                Task.Run(async () =>
+                {
+                    await UploadSamplingPoints(token, serverUrl, surveyDetails, file);
+                });
+            }
+            else
+            {
+                var samplingUrl = $"{serverUrl}/v1/Surveys/{surveyDetails.SurveyId}/SamplingPoints";
+                Task.Run(async () => SamplingPoints = await GetSamplingPointsAsync(samplingUrl, token));
+            }
         }
 
         public async Task UploadSamplingPoints(AccessToken token, string serverUrl, SurveyDetails surveyDetails, FileData file)
         {
             var url = $"{serverUrl}/v1/Surveys/{surveyDetails.SurveyId}/SamplingPoints";
-            
+            var officesUrl = $"{serverUrl}/v1/Offices";
+            var offices = await GetFieldWorkOfficeIdAsync(officesUrl, token);
+
             using (var memoryStream = new MemoryStream(file.DataArray))
             {
                 using (var reader = new StreamReader(memoryStream))
                 {
-                    var samplingPoints = new List<SamplingPointModel>();
                     var csvFile = await reader.ReadToEndAsync();
                     var columnsLine = new StringReader(csvFile).ReadLine();
                     var delim = new[] { ',', ';' };
                     var columns = columnsLine.Split(delim);
                     var csvData = csvFile.Split('\n').Skip(1);
+                    
+                    foreach (var data in csvData)
+                    {
+                        try
+                        {
+                            if (string.IsNullOrEmpty(data)) continue;
 
-                    //Parallel.ForEach(csvData, async data =>
-                    //{
-                    //    if (string.IsNullOrEmpty(data)) return;
+                            var columnData = data.Split(delim);
+                            var kind = SamplingPointKind.Regular;
+                            switch (columnData[columns.IndexOf("Preference")].ToLower())
+                            {
+                                case "spare":
+                                    kind = SamplingPointKind.Spare;
+                                    break;
+                                case "spareactive":
+                                    kind = SamplingPointKind.SpareActive;
+                                    break;
+                                case "replaced":
+                                    kind = SamplingPointKind.Replaced;
+                                    break;
+                            }
 
-                    //    var columnData = data.Split(delim);
-                    //    var kind = SamplingPointKind.Regular;
-                    //    switch (columnData[columns.IndexOf("Preference")].ToLower())
-                    //    {
-                    //        case "spare":
-                    //            kind = SamplingPointKind.Spare;
-                    //            break;
-                    //        case "spareactive":
-                    //            kind = SamplingPointKind.SpareActive;
-                    //            break;
-                    //        case "replaced":
-                    //            kind = SamplingPointKind.Replaced;
-                    //            break;
-                    //    }
+                            var officeId = string.Empty;
+                            if (columns.IndexOf("FieldworkOffice") != -1)
+                            {
+                                officeId = offices.FirstOrDefault(x =>
+                                    x.OfficeName == columnData[columns.IndexOf("FieldworkOffice")])?.OfficeId;
+                            }
 
-                    //    var sample = new SamplingPointModel
-                    //    {
-                    //        SamplingPointId = columns.IndexOf("SamplingPointId") != -1
-                    //            ? columnData[columns.IndexOf("SamplingPointId")]
-                    //            : "",
-                    //        Name = columns.IndexOf("Name") != -1 ? columnData[columns.IndexOf("Name")] : "",
-                    //        Description =
-                    //            columns.IndexOf("Description") != -1
-                    //                ? columnData[columns.IndexOf("Description")]
-                    //                : "",
-                    //        Instruction =
-                    //            columns.IndexOf("Instruction") != -1
-                    //                ? columnData[columns.IndexOf("Instruction")]
-                    //                : "",
-                    //        FieldworkOfficeId = columns.IndexOf("FieldworkOffice") != -1
-                    //            ? columnData[columns.IndexOf("FieldworkOffice")]
-                    //            : "",
-                    //        GroupId =
-                    //            columns.IndexOf("GroupId") != -1 ? columnData[columns.IndexOf("GroupId")] : "",
-                    //        Stratum =
-                    //            columns.IndexOf("Stratum") != -1 ? columnData[columns.IndexOf("Stratum")] : "",
-                    //        Kind = kind
-                    //    };
-                    //    var samplingData = JsonConvert.SerializeObject(sample);
-                    //    var samplePosted = await PostSamplingPoint(samplingData, url, token);
-                    //    samplingPoints.Add(samplePosted);
-                    //});
-
-                    //foreach (var data in csvData)
-                    //{
-                    //    if (string.IsNullOrEmpty(data)) return;
-
-                    //    var columnData = data.Split(delim);
-                    //    var kind = SamplingPointKind.Regular;
-                    //    switch (columnData[columns.IndexOf("Preference")].ToLower())
-                    //    {
-                    //        case "spare":
-                    //            kind = SamplingPointKind.Spare;
-                    //            break;
-                    //        case "spareactive":
-                    //            kind = SamplingPointKind.SpareActive;
-                    //            break;
-                    //        case "replaced":
-                    //            kind = SamplingPointKind.Replaced;
-                    //            break;
-                    //    }
+                            var sample = new SamplingPointModel
+                            {
+                                SamplingPointId = columns.IndexOf("SamplingPointId") != -1
+                                    ? columnData[columns.IndexOf("SamplingPointId")]
+                                    : "",
+                                Name = columns.IndexOf("Name") != -1 ? columnData[columns.IndexOf("Name")] : "",
+                                Description =
+                                    columns.IndexOf("Description") != -1
+                                        ? columnData[columns.IndexOf("Description")]
+                                        : "",
+                                Instruction =
+                                    columns.IndexOf("Instruction") != -1
+                                        ? columnData[columns.IndexOf("Instruction")]
+                                        : "",
+                                FieldworkOfficeId = officeId,
+                                GroupId =
+                                    columns.IndexOf("GroupId") != -1 ? columnData[columns.IndexOf("GroupId")] : null,
+                                Stratum =
+                                    columns.IndexOf("Stratum") != -1 ? columnData[columns.IndexOf("Stratum")] : null,
+                                Kind = kind
+                            };
 
 
-                    //    var SamplingPointId = columns.IndexOf("SamplingPointId");
-                    //    var Name = columns.IndexOf("Name");
-                    //    var Description =
-                    //            columns.IndexOf("Description");
-                    //    var Instruction =
-                    //            columns.IndexOf("Instruction");
-                    //    var FieldworkOfficeId = columns.IndexOf("FieldworkOffice");
-                    //    var GroupId =
-                    //        columns.IndexOf("GroupId");
-                    //    var Stratum =
-                    //        columns.IndexOf("Stratum");
+                            var samplingData = JsonConvert.SerializeObject(sample);
+                            await PostSamplingPoint(samplingData, url, token);
+                        }
+                        catch (System.Exception e)
+                        {
+                            var t = e;
+                            throw;
+                        }
+                    }
 
+                    var samplingUrl = $"{serverUrl}/v1/Surveys/{surveyDetails.SurveyId}/SamplingPoints";
+                    SamplingPoints = await GetSamplingPointsAsync(samplingUrl, token);
 
-                    //    var sample = new SamplingPointModel
-                    //    {
-                    //        SamplingPointId = columns.IndexOf("SamplingPointId") != -1
-                    //            ? columnData[columns.IndexOf("SamplingPointId")]
-                    //            : "",
-                    //        Name = columns.IndexOf("Name") != -1 ? columnData[columns.IndexOf("Name")] : "",
-                    //        Description =
-                    //            columns.IndexOf("Description") != -1
-                    //                ? columnData[columns.IndexOf("Description")]
-                    //                : "",
-                    //        Instruction =
-                    //            columns.IndexOf("Instruction") != -1
-                    //                ? columnData[columns.IndexOf("Instruction")]
-                    //                : "",
-                    //        FieldworkOfficeId = columns.IndexOf("FieldworkOffice") != -1
-                    //            ? columnData[columns.IndexOf("FieldworkOffice")]
-                    //            : "",
-                    //        GroupId =
-                    //            columns.IndexOf("GroupId") != -1 ? columnData[columns.IndexOf("GroupId")] : "",
-                    //        Stratum =
-                    //            columns.IndexOf("Stratum") != -1 ? columnData[columns.IndexOf("Stratum")] : "",
-                    //        Kind = kind
-                    //    };
-
-                    //    try
-                    //    {
-                    //        var samplingData = JsonConvert.SerializeObject(sample);
-                    //        await PostSamplingPoint(samplingData, url, token);
-                    //    }
-                    //    catch (System.Exception)
-                    //    {
-
-                    //        throw;
-                    //    }
-                        
-                    //    //samplingPoints.Add(samplePosted);
-                    //}
-
-                    var urll = $"{serverUrl}v1/Surveys/{surveyDetails.SurveyId}/SamplingPoints";
-                    await GetStuff(urll, token);
-                    var uploadSampleJson = JsonConvert.SerializeObject(samplingPoints);
-
-                    MocString = uploadSampleJson;
+                    IsLoading = false;
                 }
             }
         }
@@ -192,36 +179,41 @@ namespace Nfield.ApiTool.ViewModels
                 writer.Flush();
             }
 
-            //using (var response = await request.GetResponseAsync())
-            //{
-            //    using (var reader = new StreamReader(response.GetResponseStream()))
-            //    {
-            //        var content = reader.ReadToEnd();
-            //        return JsonConvert.DeserializeObject<SamplingPointModel>(content);
-            //    }
-            //}
+            using (var response = await request.GetResponseAsync())
+            {
+                //using (var reader = new StreamReader(response.GetResponseStream()))
+                //{
+                //    var content = reader.ReadToEnd();
+                //    return JsonConvert.DeserializeObject<SamplingPointModel>(content);
+                //}
+            }
         }
 
-        public async Task GetStuff(string url, AccessToken token)
+        public async Task<List<SamplingPointModel>> GetSamplingPointsAsync(string url, AccessToken token)
         {
             var request = new RestApi().Get(url, token);
-            try
+
+            using (var response = await request.GetResponseAsync())
             {
-                using (WebResponse response = await request.GetResponseAsync())
+                using (var reader = new StreamReader(response.GetResponseStream()))
                 {
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
-                    {
-                        var content = reader.ReadToEnd();
-                        var SurveyCounts = JsonConvert.DeserializeObject<SamplingPointModel>(content);
-                    }
+                    var content = reader.ReadToEnd();
+                    return JsonConvert.DeserializeObject<List<SamplingPointModel>>(content);
                 }
             }
-            catch (System.Exception e)
+        }
+
+        public async Task<List<FieldworkOfficeModel>> GetFieldWorkOfficeIdAsync(string url, AccessToken token)
+        {
+            var request = new RestApi().Get(url, token);
+            using (var response = await request.GetResponseAsync())
             {
-                var t = e;
-                throw;
+                using (var reader = new StreamReader(response.GetResponseStream()))
+                {
+                    var content = reader.ReadToEnd();
+                    return JsonConvert.DeserializeObject<List<FieldworkOfficeModel>>(content);
+                }
             }
-            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
