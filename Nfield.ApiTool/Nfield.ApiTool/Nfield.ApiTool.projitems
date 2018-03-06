@@ -17,6 +17,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Entities\AddToFav.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helper\RestApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISave.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISQLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\AccessToken.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ActionsToTake.cs" />

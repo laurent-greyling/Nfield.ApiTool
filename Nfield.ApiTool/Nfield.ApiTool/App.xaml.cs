@@ -1,6 +1,4 @@
-﻿using System;
-
-using Nfield.ApiTool.Views;
+﻿using Nfield.ApiTool.Views;
 using Xamarin.Forms;
 
 namespace Nfield.ApiTool

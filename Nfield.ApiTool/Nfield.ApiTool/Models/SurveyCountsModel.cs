@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Nfield.ApiTool.Models
+﻿namespace Nfield.ApiTool.Models
 {
     public class SurveyCountsModel
     {

@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Nfield.ApiTool.Models;
-using Nfield.ApiTool.Helper;
-using System.Net;
-using System.IO;
-using Newtonsoft.Json;
 using Nfield.ApiTool.ViewModels;
 
 namespace Nfield.ApiTool.Views
