@@ -25,7 +25,7 @@ namespace Nfield.ApiTool.ViewModels
                 if (_loading != value)
                 {
                     _loading = value;
-                    OnPropertyChanged("Lodaing");
+                    OnPropertyChanged("Loading");
                 }
             }
         }

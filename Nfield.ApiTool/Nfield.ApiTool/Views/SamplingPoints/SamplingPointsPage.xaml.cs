@@ -60,5 +60,22 @@ namespace Nfield.ApiTool.Views.SamplingPoints
 	            throw;
 	        }
 	    }
+
+        public async Task Upload_Image()
+        {
+            try
+            {
+                var fileData = await CrossFilePicker.Current.PickFile();
+                
+                var uploadSamplingPointImage = new SamplingPointsImageViewModel(Token, ServerUrl, SurveyDetails, fileData);
+                
+            }
+            catch (Exception e)
+            {
+                await DisplayAlert("Error", $"Something went wrong downloading samplingpoint {e.Message}", "Ok");
+                Console.WriteLine(e);
+                throw;
+            }
+        }
     }
 }

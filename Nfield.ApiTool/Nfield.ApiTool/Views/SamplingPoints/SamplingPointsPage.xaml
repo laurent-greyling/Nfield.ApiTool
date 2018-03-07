@@ -33,7 +33,11 @@
                     <Image Grid.Column="2"
                            Source="photo.png"
                            HorizontalOptions="CenterAndExpand"
-                           VerticalOptions="CenterAndExpand"/>
+                           VerticalOptions="CenterAndExpand">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Upload_Image"/>
+                        </Image.GestureRecognizers>
+                    </Image>
                     <Label Grid.Column="4" x:Name="Uploading"
                            Text="{Binding Loading}"
                            FontSize="Micro"
