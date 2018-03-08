@@ -14,13 +14,43 @@ namespace Nfield.ApiTool.ViewModels
 {
     public class SamplingPointsImageViewModel : INotifyPropertyChanged
     {
-        
+        private string _loading;
+        public string Loading
+        {
+            get { return _loading; }
+            set
+            {
+                if (_loading != value)
+                {
+                    _loading = value;
+                    OnPropertyChanged("Loading");
+                }
+            }
+        }
+
+        private bool _isLoading = true;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                if (_isLoading != value)
+                {
+                    _isLoading = value;
+                    OnPropertyChanged("IsLoading");
+                }
+            }
+        }
 
         public SamplingPointsImageViewModel(AccessToken token,
             string serverUrl,
             SurveyDetails surveyDetails,
-            FileData file)
+            FileData file,
+            bool isLoading = false,
+            string loading = "")
         {
+            Loading = loading;
+            IsLoading = isLoading;
             if (file != null)
             {
                 Task.Run(async () =>
@@ -60,33 +90,35 @@ namespace Nfield.ApiTool.ViewModels
                             if (string.IsNullOrEmpty(samplingPointId) || string.IsNullOrEmpty(imagePath)) continue;
 
                             var fileName = Path.GetFileName(imagePath);
-                            var content = $@"{Path.GetDirectoryName(imagePath)}\";
+
+                            File.SetAttributes(imagePath, FileAttributes.Normal);
+                            var contentBytes = File.ReadAllBytes(imagePath);
 
                             var url = $"{serverUrl}/v1/Surveys/{surveyDetails.SurveyId}/SamplingPoint/{samplingPointId}/Image/{fileName}";
-                            await PostSamplingPointImage(url, token, imagePath);
+                            await PostSamplingPointImage(url, token, contentBytes);
 
                         }
                         catch (System.Exception e)
                         {
-                            var t = e;
+                            IsLoading = false;
                             throw;
                         }
                     }
-                    
+
+                    IsLoading = false;
                 }
             }
         }
 
-        public async Task PostSamplingPointImage(string url, AccessToken token, string contentType)
+        public async Task PostSamplingPointImage(string url, AccessToken token, byte[] contentBytes)
         {
-            var request = new RestApi().Post(url, token, contentType);
+            var request = new RestApi().PostStream(url, token);
 
-            var s = "uploadfile=true&file=" + contentType;
-            using (var writer = new StreamWriter(await request.GetRequestStreamAsync()))
+            using (var stream = await request.GetRequestStreamAsync())
             {
-                writer.Write(s);
-                writer.Flush();
+                await stream.WriteAsync(contentBytes, 0, contentBytes.Length);
             }
+
             using (var response = await request.GetResponseAsync())
             {                
             }

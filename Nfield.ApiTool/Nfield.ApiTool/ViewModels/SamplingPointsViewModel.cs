@@ -59,6 +59,9 @@ namespace Nfield.ApiTool.ViewModels
             }
         }
 
+        private string ServerUrl { get; set; }
+        private string SurveyId { get; set; }
+
         public SamplingPointsViewModel(AccessToken token,
             string serverUrl,
             SurveyDetails surveyDetails,
@@ -66,6 +69,8 @@ namespace Nfield.ApiTool.ViewModels
             bool isLoading= false,
             string loading = "")
         {
+            ServerUrl = serverUrl;
+            SurveyId = surveyDetails.SurveyId;
             Loading = loading;
             IsLoading = isLoading;
             SurveyName = $"{surveyDetails.SurveyName} Sampling Points";
@@ -73,20 +78,20 @@ namespace Nfield.ApiTool.ViewModels
             {
                 Task.Run(async () =>
                 {
-                    await UploadSamplingPoints(token, serverUrl, surveyDetails, file);
+                    await UploadSamplingPoints(token, file);
                 });
             }
             else
             {
-                var samplingUrl = $"{serverUrl}/v1/Surveys/{surveyDetails.SurveyId}/SamplingPoints";
+                var samplingUrl = $"{serverUrl}/v1/Surveys/{SurveyId}/SamplingPoints";
                 Task.Run(async () => SamplingPoints = await GetSamplingPointsAsync(samplingUrl, token));
             }
         }
 
-        public async Task UploadSamplingPoints(AccessToken token, string serverUrl, SurveyDetails surveyDetails, FileData file)
+        public async Task UploadSamplingPoints(AccessToken token, FileData file)
         {
-            var url = $"{serverUrl}/v1/Surveys/{surveyDetails.SurveyId}/SamplingPoints";
-            var officesUrl = $"{serverUrl}/v1/Offices";
+            var url = $"{ServerUrl}/v1/Surveys/{SurveyId}/SamplingPoints";
+            var officesUrl = $"{ServerUrl}/v1/Offices";
             var offices = await GetFieldWorkOfficeIdAsync(officesUrl, token);
 
             using (var memoryStream = new MemoryStream(file.DataArray))
@@ -148,19 +153,17 @@ namespace Nfield.ApiTool.ViewModels
                                     columns.IndexOf("Stratum") != -1 ? columnData[columns.IndexOf("Stratum")] : null,
                                 Kind = kind
                             };
-
-
                             var samplingData = JsonConvert.SerializeObject(sample);
                             await PostSamplingPoint(samplingData, url, token);
                         }
                         catch (System.Exception e)
                         {
-                            var t = e;
+                            IsLoading = false;
                             throw;
                         }
                     }
 
-                    var samplingUrl = $"{serverUrl}/v1/Surveys/{surveyDetails.SurveyId}/SamplingPoints";
+                    var samplingUrl = $"{ServerUrl}/v1/Surveys/{SurveyId}/SamplingPoints";
                     SamplingPoints = await GetSamplingPointsAsync(samplingUrl, token);
 
                     IsLoading = false;
@@ -180,11 +183,6 @@ namespace Nfield.ApiTool.ViewModels
 
             using (var response = await request.GetResponseAsync())
             {
-                //using (var reader = new StreamReader(response.GetResponseStream()))
-                //{
-                //    var content = reader.ReadToEnd();
-                //    return JsonConvert.DeserializeObject<SamplingPointModel>(content);
-                //}
             }
         }
 
@@ -197,9 +195,12 @@ namespace Nfield.ApiTool.ViewModels
                 using (var reader = new StreamReader(response.GetResponseStream()))
                 {
                     var content = reader.ReadToEnd();
-                    return JsonConvert.DeserializeObject<List<SamplingPointModel>>(content);
+                    var samplingPoints = JsonConvert.DeserializeObject<List<SamplingPointModel>>(content);
+
+                    return samplingPoints;
                 }
             }
+
         }
 
         public async Task<List<FieldworkOfficeModel>> GetFieldWorkOfficeIdAsync(string url, AccessToken token)

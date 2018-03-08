@@ -67,7 +67,7 @@ namespace Nfield.ApiTool.Views.SamplingPoints
             {
                 var fileData = await CrossFilePicker.Current.PickFile();
                 
-                var uploadSamplingPointImage = new SamplingPointsImageViewModel(Token, ServerUrl, SurveyDetails, fileData);
+                var uploadSamplingPointImage = new SamplingPointsImageViewModel(Token, ServerUrl, SurveyDetails, fileData, true, "Uploading Image...");
                 
             }
             catch (Exception e)

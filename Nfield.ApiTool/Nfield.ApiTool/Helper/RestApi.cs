@@ -13,7 +13,7 @@ namespace Nfield.ApiTool.Helper
             request.ContentType = "application/json";
             request.Method = "GET";
             request.Headers[HttpRequestHeader.Authorization] = $"Basic {token.AuthenticationToken}";
-            //request.Headers.Add("Authorization", $"Basic {token.AuthenticationToken}");
+            
             return request;
         }
 
@@ -37,12 +37,10 @@ namespace Nfield.ApiTool.Helper
             return request;
         }
 
-        public WebRequest Post(string url, AccessToken token, string contentType)
+        public WebRequest PostStream(string url, AccessToken token)
         {
-            var d = WebUtility.UrlEncode(contentType);
             var request = WebRequest.Create(new Uri(url));
-            request.ContentType = "application/octet-stream";
-            
+            request.ContentType = "application/x-www-form-urlencoded";
             request.Method = "POST";
             request.Headers[HttpRequestHeader.Authorization] = $"Basic {token.AuthenticationToken}";
 
