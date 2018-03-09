@@ -19,14 +19,16 @@ namespace Nfield.ApiTool.Views.Interviewers
 	    private AccessToken Token { get; set; }
 	    private string ServerUrl { get; set; }
 	    private SurveyDetails SurveyDetails { get; set; }
-        public InterviewersPage (AccessToken token, string serverUrl, SurveyDetails surveyDetails)
+	    public InterviewersViewModel Interviewers { get; set; }
+
+	    public InterviewersPage (AccessToken token, string serverUrl, SurveyDetails surveyDetails)
 		{
 			InitializeComponent ();
 		    Token = token;
 		    ServerUrl = serverUrl;
 		    SurveyDetails = surveyDetails;
-		    var interviewerData = new InterviewersViewModel(Token, ServerUrl, SurveyDetails, null);
-		    BindingContext = interviewerData;
+		    Interviewers = new InterviewersViewModel(Token, ServerUrl, SurveyDetails, null);
+		    BindingContext = Interviewers;
         }
 
 	    public async Task Upload_File()
@@ -35,9 +37,9 @@ namespace Nfield.ApiTool.Views.Interviewers
 	        {
 	            var fileData = await CrossFilePicker.Current.PickFile();
 
-	            var interviewerData = new InterviewersViewModel(Token, ServerUrl, SurveyDetails, fileData, true, "Uploading...");
+	            Interviewers = new InterviewersViewModel(Token, ServerUrl, SurveyDetails, fileData, true, "Uploading...");
 
-	            BindingContext = interviewerData;
+	            BindingContext = Interviewers;
 	        }
 	        catch (Exception e)
 	        {
@@ -60,6 +62,28 @@ namespace Nfield.ApiTool.Views.Interviewers
 	            await DisplayAlert("Error", $"Something went wrong downloading interviewers data {e.Message}", "Ok");
 	            Console.WriteLine(e);
 	            throw;
+	        }
+	    }
+
+	    private void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
+	    {
+	        try
+	        {
+
+	            InterviewersList.ItemsSource = string.IsNullOrWhiteSpace(e.NewTextValue)
+	                ? InterviewersList.ItemsSource = Interviewers.Interviewers
+	                : InterviewersList.ItemsSource = Interviewers.Interviewers.Where(n =>
+	                    n.Username.ToLower().Contains(e.NewTextValue.ToLower()) ||
+	                    n.FirstName.ToLower().Contains(e.NewTextValue.ToLower()) ||
+	                    n.LastName.ToLower().Contains(e.NewTextValue.ToLower()) ||
+	                    n.ClientInterviewerId.ToLower().Contains(e.NewTextValue.ToLower()) ||
+	                    n.EmailAddress.ToLower().Contains(e.NewTextValue.ToLower()));
+
+	        }
+	        catch (Exception)
+	        {
+	            InterviewersList.ItemsSource = null;
+
 	        }
 	    }
     }
