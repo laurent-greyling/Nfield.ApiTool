@@ -49,7 +49,7 @@ namespace Nfield.ApiTool.Views.SamplingPoints
 	    {
 	        try
 	        {
-                var downloadSampleData = await new DownloadSamplingPoints().Download(Token, ServerUrl, SurveyDetails, null, true, "Downloading...");
+                var downloadSampleData = await new DownloadSamplingPoints().Download(Token, ServerUrl, SurveyDetails, null);
 
 	            await DependencyService.Get<ISave>().SaveAsync($"SamplingPoints-{SurveyDetails.SurveyName}.csv", downloadSampleData);
             }

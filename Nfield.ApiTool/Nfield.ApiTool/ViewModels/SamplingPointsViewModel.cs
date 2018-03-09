@@ -88,7 +88,7 @@ namespace Nfield.ApiTool.ViewModels
             }
         }
 
-        public async Task UploadSamplingPoints(AccessToken token, FileData file)
+        private async Task UploadSamplingPoints(AccessToken token, FileData file)
         {
             var url = $"{ServerUrl}/v1/Surveys/{SurveyId}/SamplingPoints";
             var officesUrl = $"{ServerUrl}/v1/Offices";
@@ -104,13 +104,13 @@ namespace Nfield.ApiTool.ViewModels
                     var columns = columnsLine.Split(delim);
                     var csvData = csvFile.Split('\n').Skip(1);
                     
-                    foreach (var data in csvData)
+                    foreach (var row in csvData)
                     {
                         try
                         {
-                            if (string.IsNullOrEmpty(data)) continue;
+                            if (string.IsNullOrEmpty(row)) continue;
 
-                            var columnData = data.Split(delim);
+                            var columnData = row.Split(delim);
                             var kind = SamplingPointKind.Regular;
                             switch (columnData[columns.IndexOf("Preference")].ToLower())
                             {
@@ -171,7 +171,7 @@ namespace Nfield.ApiTool.ViewModels
             }
         }
 
-        public async Task PostSamplingPoint(string data, string url, AccessToken token)
+        private async Task PostSamplingPoint(string data, string url, AccessToken token)
         {
             var request = new RestApi().Post(url, token);
 

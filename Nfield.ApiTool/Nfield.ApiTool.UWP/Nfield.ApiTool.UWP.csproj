@@ -115,6 +115,7 @@
   <ItemGroup>
     <Content Include="analytics.png" />
     <Content Include="barchart.png" />
+    <Content Include="checked.png" />
     <Content Include="download.png" />
     <Content Include="ic_android_black_24dp.png" />
     <Content Include="ic_online_24dp.png" />
@@ -161,6 +162,7 @@
     <Content Include="searching.png" />
     <Content Include="select.png" />
     <Content Include="signin.png" />
+    <Content Include="supervisor.png" />
     <Content Include="survey.png" />
     <Content Include="toolsandutensils.png" />
     <Content Include="unselect.png" />
@@ -204,9 +206,6 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.Data.Core, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.HttpUtility">
-      <HintPath>..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.0.0\ref\netcoreapp2.0\System.Web.HttpUtility.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Import Project="..\Nfield.ApiTool\Nfield.ApiTool.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

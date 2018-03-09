@@ -16,9 +16,7 @@ namespace Nfield.ApiTool.Services
         public async Task<string> Download(AccessToken token,
             string serverUrl,
             SurveyDetails surveyDetails,
-            FileData file,
-            bool isLoading = false,
-            string loading = "")
+            FileData file)
         {
             var officesUrl = $"{serverUrl}/v1/Offices";
             var offices = await GetFieldWorkOfficeIdAsync(officesUrl, token);

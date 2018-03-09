@@ -164,6 +164,12 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\upload.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\checked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\supervisor.png" />
+  </ItemGroup>
   <Import Project="..\Nfield.ApiTool\Nfield.ApiTool.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
