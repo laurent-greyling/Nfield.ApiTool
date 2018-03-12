@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Nfield.ApiTool.Views.SurveyFragments.SurveyFragmentsPage"
+             Title="{Binding SurveyName}">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Padding="5,5,5,5" HeightRequest="50">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="90"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0"
+                           Source="upload.png"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Upload_File"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Label Grid.Column="2" x:Name="Uploading"
+                           Text="{Binding Loading}"
+                           FontSize="Micro"
+                           VerticalOptions="CenterAndExpand" 
+                           HorizontalOptions="CenterAndExpand"
+                           FontAttributes="Bold"
+                           IsVisible="{Binding IsLoading}"
+                           TextColor="#a39f9f"/>
+                </Grid>
+            </StackLayout>
+            <StackLayout Padding="5,5,5,5" Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                <SearchBar Placeholder="Search" TextChanged="SearchBar_OnTextChanged" FontSize="Medium" x:Name="SearchBar" HeightRequest="50"/>
+                <ListView x:Name="FragmentList" 
+                          ItemsSource="{Binding ScriptFragments}"
+                          ItemTapped="Select_Fragment">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="5,5,5,5">
+                                    <Label Text="{Binding FragmentName}" 
+                                               VerticalOptions="CenterAndExpand" 
+                                               HorizontalOptions="StartAndExpand"
+                                               FontSize="Medium"
+                                               FontAttributes="Bold"
+                                               TextColor="#a39f9f"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

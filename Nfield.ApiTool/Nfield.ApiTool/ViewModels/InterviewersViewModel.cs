@@ -149,7 +149,6 @@ namespace Nfield.ApiTool.ViewModels
                     }
 
                     Interviewers = await GetInterviewersAsync(url, token);
-                    IsLoading = false;
                 }
             }
         }
@@ -180,6 +179,7 @@ namespace Nfield.ApiTool.ViewModels
                     var content = reader.ReadToEnd();
                     var interviewrs = JsonConvert.DeserializeObject<List<InterviewerModel>>(content);
 
+                    IsLoading = false;
                     return interviewrs;
                 }
             }

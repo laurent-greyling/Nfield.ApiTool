@@ -166,7 +166,6 @@ namespace Nfield.ApiTool.ViewModels
                     var samplingUrl = $"{ServerUrl}/v1/Surveys/{SurveyId}/SamplingPoints";
                     SamplingPoints = await GetSamplingPointsAsync(samplingUrl, token);
 
-                    IsLoading = false;
                 }
             }
         }
@@ -197,6 +196,7 @@ namespace Nfield.ApiTool.ViewModels
                     var content = reader.ReadToEnd();
                     var samplingPoints = JsonConvert.DeserializeObject<List<SamplingPointModel>>(content);
 
+                    IsLoading = false;
                     return samplingPoints;
                 }
             }

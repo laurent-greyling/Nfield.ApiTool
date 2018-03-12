@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Nfield.ApiTool.Models;
 using Nfield.ApiTool.Views.Interviewers;
 using Nfield.ApiTool.Views.SamplingPoints;
+using Nfield.ApiTool.Views.SurveyFragments;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -23,14 +24,14 @@ namespace Nfield.ApiTool.Views
             
             Actions = new ObservableCollection<ActionsToTake>
 		    {
-		        new ActionsToTake
-		        {
-		            Action = "Addresses",
-                    Icon = "map.png",
-                    ServerUrl = serverUrl,
-                    SurveyDetails = surveyDetails,
-                    AccessToken = token
-		        },
+		        //new ActionsToTake
+		        //{
+		        //    Action = "Addresses",
+          //          Icon = "map.png",
+          //          ServerUrl = serverUrl,
+          //          SurveyDetails = surveyDetails,
+          //          AccessToken = token
+		        //},
 		        new ActionsToTake
 		        {
 		            Action = "Interviewers",
@@ -48,22 +49,22 @@ namespace Nfield.ApiTool.Views
                     SurveyDetails = surveyDetails,
                     AccessToken = token
 		        },
-		        new ActionsToTake
-		        {
-		            Action = "Survey Data Overview",
-                    Icon = "analytics.png",
-                    ServerUrl = serverUrl,
-                    SurveyDetails = surveyDetails,
-                    AccessToken = token
-		        },
-		        new ActionsToTake
-		        {
-		            Action = "Survey Settings",
-                    Icon = "survey.png",
-                    ServerUrl = serverUrl,
-                    SurveyDetails = surveyDetails,
-                    AccessToken = token
-		        },
+		        //new ActionsToTake
+		        //{
+		        //    Action = "Survey Data Overview",
+          //          Icon = "analytics.png",
+          //          ServerUrl = serverUrl,
+          //          SurveyDetails = surveyDetails,
+          //          AccessToken = token
+		        //},
+		        //new ActionsToTake
+		        //{
+		        //    Action = "Survey Settings",
+          //          Icon = "survey.png",
+          //          ServerUrl = serverUrl,
+          //          SurveyDetails = surveyDetails,
+          //          AccessToken = token
+		        //},
                 new ActionsToTake
                 {
                     Action = "Survey Statistics",
@@ -72,20 +73,28 @@ namespace Nfield.ApiTool.Views
                     SurveyDetails = surveyDetails,
                     AccessToken = token
                 },
+		        new ActionsToTake
+		        {
+		            Action = "Survey Fragments",
+		            Icon = "puzzle.png",
+		            ServerUrl = serverUrl,
+		            SurveyDetails = surveyDetails,
+		            AccessToken = token
+		        },
             };
 
-		    if (surveyDetails.SurveyType != SurveyType.EuroBarometer.ToString())
-		    {
-		        var index = Actions.Single(c => c.Action == "Addresses");
-		        Actions.Remove(index);
-		    }
+		    //if (surveyDetails.SurveyType != SurveyType.EuroBarometer.ToString())
+		    //{
+		    //    var index = Actions.Single(c => c.Action == "Addresses");
+		    //    Actions.Remove(index);
+		    //}
 
 		    if (surveyDetails.SurveyType == SurveyType.OnlineBasic.ToString())
 		    {
 		        var index = Actions.Single(c => c.Action == "Interviewers");
 		        Actions.Remove(index);
-		        index = Actions.Single(c => c.Action == "Survey Data Overview");
-		        Actions.Remove(index);
+		        //index = Actions.Single(c => c.Action == "Survey Data Overview");
+		        //Actions.Remove(index);
             }
 
 		    if (surveyDetails.SurveyType != SurveyType.Advanced.ToString() && surveyDetails.SurveyType != SurveyType.EuroBarometer.ToString())
@@ -115,6 +124,9 @@ namespace Nfield.ApiTool.Views
                     break;
                 case "Interviewers":
                     await Navigation.PushAsync(new InterviewersPage(surveyDetails.AccessToken, surveyDetails.ServerUrl, surveyDetails.SurveyDetails));
+                    break;
+                case "Survey Fragments":
+                    await Navigation.PushAsync(new SurveyFragmentsPage(surveyDetails.AccessToken, surveyDetails.ServerUrl, surveyDetails.SurveyDetails));
                     break;
                 default:
                     break;

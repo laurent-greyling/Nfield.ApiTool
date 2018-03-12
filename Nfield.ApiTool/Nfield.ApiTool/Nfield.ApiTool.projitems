@@ -30,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\QuotaLevel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SamplingPointKind.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SamplingPointModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ScriptFragmentsModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SignInModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SurveyCountsModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SurveyDetails.cs" />
@@ -42,6 +43,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SamplingPointsImageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SamplingPointsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SignInViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SurveyScriptFragmentViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SurveyStatisticsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SurveysViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\ActionsPage.xaml.cs">
@@ -58,6 +60,14 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\SamplingPoints\SamplingPointsPage.xaml.cs">
       <DependentUpon>SamplingPointsPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SurveyFragments\ScriptFragmentPage.xaml.cs">
+      <DependentUpon>ScriptFragmentPage.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Views\SurveyFragments\SurveyFragmentsPage.xaml.cs">
+      <DependentUpon>SurveyFragmentsPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Views\SurveysListPage.xaml.cs">
@@ -101,6 +111,18 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\Interviewers\InterviewersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\SurveyFragments\SurveyFragmentsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\SurveyFragments\ScriptFragmentPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
