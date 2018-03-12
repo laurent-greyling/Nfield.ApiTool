@@ -73,11 +73,19 @@ namespace Nfield.ApiTool.Views.Interviewers
 	            InterviewersList.ItemsSource = string.IsNullOrWhiteSpace(e.NewTextValue)
 	                ? InterviewersList.ItemsSource = Interviewers.Interviewers
 	                : InterviewersList.ItemsSource = Interviewers.Interviewers.Where(n =>
-	                    n.Username.ToLower().Contains(e.NewTextValue.ToLower()) ||
-	                    n.FirstName.ToLower().Contains(e.NewTextValue.ToLower()) ||
-	                    n.LastName.ToLower().Contains(e.NewTextValue.ToLower()) ||
-	                    n.ClientInterviewerId.ToLower().Contains(e.NewTextValue.ToLower()) ||
-	                    n.EmailAddress.ToLower().Contains(e.NewTextValue.ToLower()));
+	                {
+	                    var userName = string.IsNullOrEmpty(n.Username) ? "" : n.Username.ToLower();
+	                    var firstName = string.IsNullOrEmpty(n.FirstName) ? "" : n.FirstName.ToLower();
+	                    var lastName = string.IsNullOrEmpty(n.LastName) ? "" : n.LastName.ToLower();
+	                    var clientInterviewerId = string.IsNullOrEmpty(n.ClientInterviewerId) ? "" : n.ClientInterviewerId.ToLower();
+	                    var emailAddress = string.IsNullOrEmpty(n.EmailAddress) ? "" : n.EmailAddress.ToLower();
+
+                        return userName.Contains(e.NewTextValue.ToLower()) ||
+                               firstName.Contains(e.NewTextValue.ToLower()) ||
+                               lastName.Contains(e.NewTextValue.ToLower()) ||
+                               clientInterviewerId.Contains(e.NewTextValue.ToLower()) ||
+                               emailAddress.Contains(e.NewTextValue.ToLower());
+	                });
 
 	        }
 	        catch (Exception)

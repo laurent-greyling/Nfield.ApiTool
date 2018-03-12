@@ -81,7 +81,7 @@
     </ContentPage>
     <ContentPage Title="Quota" x:Name="QuotaTab">
         <StackLayout>
-            <SearchBar Placeholder="Search" TextChanged="SearchBar_OnTextChanged" x:Name="SearchBarQuota" HeightRequest="50"/>
+            <SearchBar Placeholder="Search" FontSize="Medium" TextChanged="SearchBar_OnTextChanged" x:Name="SearchBarQuota" HeightRequest="50"/>
             <Frame HeightRequest="500" x:Name="NoQuota" IsVisible="{Binding SurveyInfo[0].HasNoQuota}">
                 <StackLayout Padding="5,5,5,5">
                     <Label Text="No Quota Found" FontSize="Large" FontAttributes="Bold" VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand"/>

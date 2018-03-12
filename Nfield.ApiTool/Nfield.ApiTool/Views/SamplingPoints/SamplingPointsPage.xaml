@@ -49,6 +49,7 @@
                 </Grid>
             </StackLayout>
             <StackLayout Padding="5,5,5,5" HorizontalOptions="CenterAndExpand">
+                <SearchBar Placeholder="Search" TextChanged="SearchBar_OnTextChanged" FontSize="Medium" x:Name="SearchBar" HeightRequest="50"/>
                 <ScrollView Orientation="Both">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -91,7 +92,7 @@
                         <BoxView Grid.Row="0" Grid.Column="14" BackgroundColor="Aquamarine"/>
                         <Label Grid.Row="0" Grid.Column="15" Text="Stratum" TextColor="#a39f9f" FontAttributes="Bold"/>
                         <BoxView Grid.Row="0" Grid.Column="16"/>
-                        <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="16"
+                        <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="16" x:Name="SamplingPointList"
                               ItemsSource="{Binding SamplingPoints}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>

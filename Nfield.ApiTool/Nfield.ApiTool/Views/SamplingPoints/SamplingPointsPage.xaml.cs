@@ -1,5 +1,6 @@
 ﻿using Nfield.ApiTool.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Nfield.ApiTool.Interfaces;
 using Nfield.ApiTool.Services;
@@ -17,14 +18,17 @@ namespace Nfield.ApiTool.Views.SamplingPoints
         private string ServerUrl { get; set; }
 
         private SurveyDetails SurveyDetails { get; set; }
-		public SamplingPointsPage (AccessToken token, string serverUrl, SurveyDetails surveyDetails)
+
+	    private SamplingPointsViewModel SampleData { get; set; }
+
+	    public SamplingPointsPage (AccessToken token, string serverUrl, SurveyDetails surveyDetails)
 		{
 			InitializeComponent ();
             Token = token;
             ServerUrl = serverUrl;
             SurveyDetails = surveyDetails;
-            var sampleData = new SamplingPointsViewModel(Token, ServerUrl, SurveyDetails, null);
-            BindingContext = sampleData;
+		    SampleData = new SamplingPointsViewModel(Token, ServerUrl, SurveyDetails, null);
+            BindingContext = SampleData;
         }
 
 	    public async Task Upload_File()
@@ -32,10 +36,10 @@ namespace Nfield.ApiTool.Views.SamplingPoints
             try
 	        {
                 var fileData = await CrossFilePicker.Current.PickFile();
-                
-                var sampleData = new SamplingPointsViewModel(Token, ServerUrl, SurveyDetails, fileData, true, "Uploading...");
 
-                BindingContext = sampleData;
+	            SampleData = new SamplingPointsViewModel(Token, ServerUrl, SurveyDetails, fileData, true, "Uploading...");
+
+                BindingContext = SampleData;
             }
 	        catch (Exception e)
 	        {
@@ -77,5 +81,33 @@ namespace Nfield.ApiTool.Views.SamplingPoints
                 throw;
             }
         }
+
+	    private void SearchBar_OnTextChanged(object sender, TextChangedEventArgs e)
+	    {
+	        try
+	        {
+
+	            SamplingPointList.ItemsSource = string.IsNullOrWhiteSpace(e.NewTextValue)
+	                ? SamplingPointList.ItemsSource = SampleData.SamplingPoints
+	                : SamplingPointList.ItemsSource = SampleData.SamplingPoints.Where(n =>
+	                {
+	                    var samplingPointId = string.IsNullOrEmpty(n.SamplingPointId) ? "" : n.SamplingPointId.ToLower();
+	                    var name = string.IsNullOrEmpty(n.Name) ? "" : n.Name.ToLower();
+	                    var fieldworkOfficeId = string.IsNullOrEmpty(n.FieldworkOfficeId) ? "" : n.FieldworkOfficeId.ToLower();
+	                    var groupId = string.IsNullOrEmpty(n.GroupId) ? "" : n.GroupId.ToLower();
+
+	                    return samplingPointId.Contains(e.NewTextValue.ToLower()) ||
+	                           name.Contains(e.NewTextValue.ToLower()) ||
+	                           fieldworkOfficeId.Contains(e.NewTextValue.ToLower()) ||
+	                           groupId.Contains(e.NewTextValue.ToLower());
+	                });
+
+	        }
+	        catch (Exception)
+	        {
+	            SamplingPointList.ItemsSource = null;
+
+	        }
+	    }
     }
 }
