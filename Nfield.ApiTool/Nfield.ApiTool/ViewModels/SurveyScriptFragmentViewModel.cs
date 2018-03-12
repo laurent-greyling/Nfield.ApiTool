@@ -46,7 +46,20 @@ namespace Nfield.ApiTool.ViewModels
 
         private string ServerUrl { get; set; }
         private string SurveyId { get; set; }
-        public List<ScriptFragmentsModel> ScriptFragments { get; set; }
+
+        private List<ScriptFragmentsModel> _scriptFragments;
+        public List<ScriptFragmentsModel> ScriptFragments
+        {
+            get { return _scriptFragments; }
+            set
+            {
+                if (_scriptFragments != value)
+                {
+                    _scriptFragments = value;
+                    OnPropertyChanged("ScriptFragments");
+                }
+            }
+        }
 
         public SurveyScriptFragmentViewModel(AccessToken token,
             string serverUrl,

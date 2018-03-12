@@ -76,7 +76,7 @@ namespace Nfield.ApiTool.Views.SurveyFragments
 
 	        var scriptFragment = (ScriptFragmentsModel)e.Item;
 
-	        await Navigation.PushAsync(new ScriptFragmentPage(Token,ServerUrl, scriptFragment.FragmentName,SurveyDetails.SurveyId));
+	        await Navigation.PushAsync(new ScriptFragmentPage(Token,ServerUrl, scriptFragment.FragmentName,SurveyDetails));
 	    }
     }
 }

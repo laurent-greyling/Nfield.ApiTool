@@ -1,12 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Nfield.ApiTool.Views.SurveyFragments.ScriptFragmentPage">
+             x:Class="Nfield.ApiTool.Views.SurveyFragments.ScriptFragmentPage"
+             Title="{Binding SurveyName}">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout Padding="5,5,5,5">
+                <Label x:Name="FragmentName"
+                    Text="{Binding FragmentName}"
+                       FontSize="Medium"
+                       FontAttributes="Bold"
+                       TextColor="#a39f9f"/>
+                <Editor Text="{Binding Fragment}" HeightRequest=" 500" x:Name="Fragment"/>
+                <StackLayout Orientation="Horizontal">
+                    <Button Text="Update" TextColor="White" BackgroundColor="#02a79c" Clicked="Update_Fragment"/>
+                    <Button Text="Delete" TextColor="White" BackgroundColor="#02a79c" Clicked="Delete_Fragment"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

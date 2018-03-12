@@ -39,9 +39,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\DownloadInterviewers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DownloadSamplingPoints.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\FavToggleDb.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\FragmentOperations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\InterviewersViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SamplingPointsImageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SamplingPointsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ScriptFragmentUpdateViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SignInViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SurveyScriptFragmentViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SurveyStatisticsViewModel.cs" />
